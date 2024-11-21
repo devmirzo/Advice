@@ -1,16 +1,16 @@
 import { useState, useEffect } from "react";
 
 const useFetch = (url) => {
-  const [data, setData] = useState(null); // Ma'lumotlar uchun state
-  const [loading, setLoading] = useState(true); // Yuklanish holati uchun state
-  const [error, setError] = useState(null); // Xatoliklarni saqlash uchun state
+  const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
       setError(null);
       try {
-        const response = await fetch(url);
+        const response = await fetch(url, { cache: "no-store" }); // Cache’ni chetlab o‘tish
         if (!response.ok) {
           throw new Error(`HTTP Error! Status: ${response.status}`);
         }
@@ -24,7 +24,7 @@ const useFetch = (url) => {
     };
 
     fetchData();
-  }, [url]); // URL o'zgarsa, qayta ishga tushadi
+  }, [url]);
 
   return { data, loading, error };
 };
